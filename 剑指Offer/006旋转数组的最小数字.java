@@ -1,29 +1,23 @@
-import java.util.*;
-public class Main {
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        int[] in = new int[2];
-        int t = 0;
-        while(sc.hasNext()){
-            in[t] = sc.nextInt();
-            t++;
-        }
-        long add = 0;
-        int groupNum = in[0] / (2 * in[1]);
+import java.util.ArrayList;
+
+public class Solution {
+    public int minNumberInRotateArray(int [] array) {
+        if(array == null || array.length == 0)
+            return 0;
+        int len = array.length;
+        return findmin(array,0,len-1);
+    }
+    
+    private int findmin(int[] array, int left, int right) {
+        if(left >= right || array[left] < array[right])
+            return array[left];
         
-        for(int i = 0; i < groupNum; i++){
-            for(int j = 0; j < 2 * in[1]; j++){
-                int num = i * 2 * in[1] + j + 1;
-                if(j < in[1]){
-                    add -= num;
-                }else{
-                    add += num;
-                }
-                
-            }
-        }
-        System.out.print(add);
+        int mid = (left + right) / 2;
+        if(array[mid] > array[left])
+            return findmin(array,mid+1,right);
+        else if(array[mid] == array[left])
+            return findmin(array,mid+1,right)<findmin(array,left,mid-1)?findmin(array,mid+1,right):findmin(array,left,mid-1);
+        else
+            return findmin(array,left,mid);
     }
 }
-
-//输入有些复杂

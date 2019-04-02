@@ -1,29 +1,27 @@
-import java.util.*;
-public class Main {
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        int[] in = new int[2];
-        int t = 0;
-        while(sc.hasNext()){
-            in[t] = sc.nextInt();
-            t++;
+import java.util.Stack;
+
+public class Solution {
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+    public int pop() {
+        if(stack1.isEmpty()){
+            return -1;
         }
-        long add = 0;
-        int groupNum = in[0] / (2 * in[1]);
+        return stack1.pop();
         
-        for(int i = 0; i < groupNum; i++){
-            for(int j = 0; j < 2 * in[1]; j++){
-                int num = i * 2 * in[1] + j + 1;
-                if(j < in[1]){
-                    add -= num;
-                }else{
-                    add += num;
-                }
-                
-            }
+    }
+    public void push(int node) {
+        if(stack1.isEmpty() == true){
+            stack1.push(node);
+            return;
         }
-        System.out.print(add);
+        while(stack1.isEmpty() == false){
+            stack2.push(stack1.pop());
+        }
+        stack2.push(node);
+        while(stack2.isEmpty() == false){
+            stack1.push(stack2.pop());
+        }
+        
     }
 }
-
-//输入有些复杂
