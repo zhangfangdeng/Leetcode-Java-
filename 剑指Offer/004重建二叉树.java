@@ -1,29 +1,28 @@
-import java.util.*;
-public class Main {
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        int[] in = new int[2];
-        int t = 0;
-        while(sc.hasNext()){
-            in[t] = sc.nextInt();
-            t++;
-        }
-        long add = 0;
-        int groupNum = in[0] / (2 * in[1]);
-        
-        for(int i = 0; i < groupNum; i++){
-            for(int j = 0; j < 2 * in[1]; j++){
-                int num = i * 2 * in[1] + j + 1;
-                if(j < in[1]){
-                    add -= num;
-                }else{
-                    add += num;
-                }
-                
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        TreeNode root = helper(pre,0,pre.length-1,in,0,in.length-1);
+        return root;
+    }
+    private TreeNode helper(int[] pre,int preStart,int preEnd,int[] in,int inStart,int inEnd){
+        if(preStart > preEnd || inStart > inEnd)
+            return null;
+        TreeNode root = new TreeNode(pre[preStart]);
+        for(int i = inStart; i <= inEnd; i++){
+            if(pre[preStart] == in[i]){
+                root.left = helper(pre,preStart+1,preStart+i-inStart,in, inStart,i-1);
+                root.right = helper(pre,preStart+i-inStart+1,preEnd,in,i+1,inEnd);
+                break;
             }
         }
-        System.out.print(add);
+        return root;
     }
 }
-
-//输入有些复杂
